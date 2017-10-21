@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: SKOIN
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# SKOIN_enable (bool): Set to NO by default. Set this variable to YES if you want to enable SKOIN service.
+# SKOIN_config (path): Set to /usr/local/etc/SKOIN.conf by default.
+# SKOIN_user:  The user account SKOIN daemon runs as. It uses 'root' user by default.
+# SKOIN_group: The group account SKOIN daemon runs as. It uses 'wheel' group by default.
+# SKOIN_datadir (str): Default to "/var/db/SKOIN". Base data directory.
+
+. /etc/rc.subr
+
+name=SKOIN
+rcvar=SKOIN_enable
+
+: ${SKOIN_enable:=NO}
+: ${SKOIN_config=/usr/local/etc/SKOIN.conf}
+: ${SKOIN_datadir=/var/db/SKOIN}
+: ${SKOIN_user="root"}
+: ${SKOIN_group="wheel"}
+
+required_files=${SKOIN_config}
+command=/usr/local/bin/SKOINd
+SKOIN_chdir=${SKOIN_datadir}
+pidfile="${SKOIN_datadir}/SKOINd.pid"
+stop_cmd=SKOIN_stop
+command_args="-conf=${SKOIN_config} -datadir=${SKOIN_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+SKOIN_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${SKOIN_datadir}
+	[ $? -eq 0 ] && chown -R ${SKOIN_user}:${SKOIN_group} ${SKOIN_datadir}
+}
+
+SKOIN_prestart()
+{
+	if [ ! -d "${SKOIN_datadir}/." ]; then
+		SKOIN_create_datadir || return 1
+	fi
+}
+
+SKOIN_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+SKOIN_stop()
+{
+    SKOIN_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${SKOIN_config} -datadir=${SKOIN_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

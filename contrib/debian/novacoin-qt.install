@@ -1,0 +1,5 @@
+SKOIN-qt usr/bin
+share/pixmaps/SKOIN32.xpm usr/share/pixmaps
+share/pixmaps/SKOIN80.xpm usr/share/pixmaps
+debian/SKOIN-qt.desktop usr/share/applications
+debian/SKOIN-qt.protocol usr/share/kde4/services/

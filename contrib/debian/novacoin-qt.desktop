@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SKOIN
+Comment=SKOIN P2P Cryptocurrency
+Comment[ru]=SKOIN, P2P криптовалюта
+Comment[fr]=SKOIN, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=SKOIN, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/SKOIN-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/SKOIN80.xpm
+MimeType=x-scheme-handler/SKOIN;
+Categories=Office;

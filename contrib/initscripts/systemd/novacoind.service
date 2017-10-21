@@ -1,0 +1,11 @@
+[Unit]
+Description=SKOIN daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=SKOIN
+ExecStart=/opt/SKOIN/SKOINd
+
+[Install]
+WantedBy=multi-user.target

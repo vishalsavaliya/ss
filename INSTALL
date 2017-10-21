@@ -1,0 +1,9 @@
+Building SKOIN
+
+See doc/readme-qt.rst for instructions on building SKOIN Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of SKOIN.
+
+See doc/build-*.txt for instructions on building SKOINd,
+the intended-for-services, no-graphical-interface, reference
+implementation of SKOIN.
